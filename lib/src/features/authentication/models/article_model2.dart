@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-
-
 class Article{
   String id;
   String author;
@@ -57,19 +55,4 @@ class Article{
   factory Article.fromJson(String source) =>
       Article.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  // factory Article.fromJson(String source) =>
-  //     Article.fromMap(json.decode(source) as Map<String, dynamic>);
-  //    //creating function that would map json into the list
-  //     factory Article.fromJson(Map<String,dynamic> json){
-  //       return Article(
-  //           author: json['author'] as String,
-  //           source: Source.fromJson(json['source']),
-  //           content: json['content'] as String,
-  //           description: json['description'] as String,
-  //           publishedAt: json['publishedAt'] as String,
-  //           title: json['title'] as String,
-  //           url: json['url'] as String,
-  //           urlToImage: json['urlToImage'] as String,
-  //       );
-  //     }
 }

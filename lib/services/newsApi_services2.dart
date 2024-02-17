@@ -23,7 +23,6 @@ class NewsApi {
   };
 
   //make a list to store the articles
-  List<Article> _articles = [];
 
   //getter for the articles
   Future<List<Article>> getArticle() async {

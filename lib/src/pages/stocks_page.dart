@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:stocks_app/services/stockApi_services.dart';
 import 'package:stocks_app/src/common_widgets/drawer.dart';
 import 'package:stocks_app/src/common_widgets/square.dart';
+
 class Stocks extends StatefulWidget {
-   Stocks({super.key});
+  Stocks({super.key});
 
   @override
   State<Stocks> createState() => _StocksState();
@@ -11,32 +13,48 @@ class Stocks extends StatefulWidget {
 class _StocksState extends State<Stocks> {
   final items = List.generate(50, (i) => (i));
 
+  StocksApi stock = StocksApi();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MyDrawer(
-        onProfileTap: (){},
+        onProfileTap: () {},
       ),
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        title: const Text('S T O C K S',
+        title: const Text(
+          'S T O C K S',
           style: TextStyle(
             color: Colors.grey,
-          ),),
+          ),
+        ),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: items.length,
-          itemBuilder: (context,index) {
-              final item = items[index];
-              return ListTile(
-                title: Text('Item $item'),
-                subtitle: Text('my subtitle'),
-                onTap: ()=> {},
-                trailing: const Icon(Icons.chevron_right_sharp),
-              );
-          }),
+      body: FutureBuilder<void>(
+        future: stock.getStock(),
+
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else if (snapshot.hasData) {
+            return const Center(
+              child: Text('Data available!'),
+            );
+          } else {
+            return const Center(
+              child: Text('snapshot me data nai hai'),
+            );
+          }
+        },
+      ),
     );
   }
 }
